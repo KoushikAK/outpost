@@ -1,0 +1,272 @@
+@import "tailwindcss";
+@import "tw-animate-css";
+@import "shadcn/tailwind.css";
+
+@custom-variant dark (&:is(.dark *));
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --font-sans: var(--font-geist-sans);
+  --font-mono: var(--font-geist-mono);
+  --font-heading: var(--font-display);
+  --color-sidebar-ring: var(--sidebar-ring);
+  --color-sidebar-border: var(--sidebar-border);
+  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
+  --color-sidebar-accent: var(--sidebar-accent);
+  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
+  --color-sidebar-primary: var(--sidebar-primary);
+  --color-sidebar-foreground: var(--sidebar-foreground);
+  --color-sidebar: var(--sidebar);
+  --color-chart-5: var(--chart-5);
+  --color-chart-4: var(--chart-4);
+  --color-chart-3: var(--chart-3);
+  --color-chart-2: var(--chart-2);
+  --color-chart-1: var(--chart-1);
+  --color-ring: var(--ring);
+  --color-input: var(--input);
+  --color-border: var(--border);
+  --color-destructive: var(--destructive);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-accent: var(--accent);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-muted: var(--muted);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-secondary: var(--secondary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-primary: var(--primary);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-popover: var(--popover);
+  --color-card-foreground: var(--card-foreground);
+  --color-card: var(--card);
+  --radius-sm: calc(var(--radius) * 0.6);
+  --radius-md: calc(var(--radius) * 0.8);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) * 1.4);
+  --radius-2xl: calc(var(--radius) * 1.8);
+  --radius-3xl: calc(var(--radius) * 2.2);
+  --radius-4xl: calc(var(--radius) * 2.6);
+}
+
+/* ─────────────────────────────────────────────────────────────
+   OXIDE — warm graphite + vermilion signal. Dark-mode only.
+   Change the four knobs to retheme everything, including the
+   topo glow and survey marks.
+   ───────────────────────────────────────────────────────────── */
+:root,
+.dark {
+  --h-neutral: 45;   /* warm graphite */
+  --h-accent: 32;    /* vermilion */
+  --l-accent: 0.68;
+  --c-accent: 0.2;
+  --radius: 0.5rem;  /* tighter than before: more drafted, less bubbly */
+
+  --background: oklch(0.125 0.006 var(--h-neutral));
+  --foreground: oklch(0.955 0.012 85);          /* bone, not pure white */
+  --card: oklch(0.165 0.007 var(--h-neutral));
+  --card-foreground: var(--foreground);
+  --popover: oklch(0.18 0.008 var(--h-neutral));
+  --popover-foreground: var(--foreground);
+
+  --primary: oklch(var(--l-accent) var(--c-accent) var(--h-accent));
+  --primary-foreground: oklch(0.14 0.02 var(--h-accent));
+  --secondary: oklch(0.23 0.008 var(--h-neutral));
+  --secondary-foreground: var(--foreground);
+  --muted: oklch(0.21 0.008 var(--h-neutral));
+  --muted-foreground: oklch(0.68 0.015 75);      /* warm grey, passes 4.5:1 on card */
+  --accent: oklch(0.27 0.045 var(--h-accent));
+  --accent-foreground: oklch(0.94 0.04 60);
+  --destructive: oklch(0.62 0.23 18);            /* pushed toward crimson so it stays distinct from the vermilion primary */
+
+  --border: oklch(0.95 0.02 85 / 9%);
+  --input: oklch(0.95 0.02 85 / 12%);
+  --ring: oklch(var(--l-accent) var(--c-accent) var(--h-accent) / 55%);
+
+  /* Charts: vermilion lead, then sand, brass, oxidized teal, slate */
+  --chart-1: var(--primary);
+  --chart-2: oklch(0.82 0.09 85);
+  --chart-3: oklch(0.7 0.11 70);
+  --chart-4: oklch(0.62 0.07 195);
+  --chart-5: oklch(0.45 0.02 var(--h-neutral));
+
+  --sidebar: oklch(0.145 0.006 var(--h-neutral));
+  --sidebar-foreground: var(--foreground);
+  --sidebar-primary: var(--primary);
+  --sidebar-primary-foreground: var(--primary-foreground);
+  --sidebar-accent: var(--secondary);
+  --sidebar-accent-foreground: var(--foreground);
+  --sidebar-border: var(--border);
+  --sidebar-ring: var(--ring);
+}
+
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+  }
+
+  html {
+    @apply font-sans antialiased;
+    color-scheme: dark;
+    text-rendering: optimizeLegibility;
+  }
+
+  body {
+    @apply bg-background text-foreground relative;
+    font-feature-settings: "ss01", "cv11";
+  }
+
+  /* Editorial display type: one weight, tight tracking, optical balance */
+  h1,
+  h2,
+  h3 {
+    font-family: var(--font-heading);
+    font-weight: 400;
+    letter-spacing: -0.02em;
+    text-wrap: balance;
+  }
+
+  p {
+    text-wrap: pretty;
+  }
+
+  /* Numbers line up in tables, stats, and prices */
+  table,
+  [data-slot="table"],
+  .tabular {
+    font-variant-numeric: tabular-nums;
+  }
+
+  ::selection {
+    background: oklch(var(--l-accent) var(--c-accent) var(--h-accent) / 35%);
+    color: var(--foreground);
+  }
+
+  /* Quiet, warm scrollbars */
+  * {
+    scrollbar-width: thin;
+    scrollbar-color: oklch(0.95 0.02 85 / 18%) transparent;
+  }
+
+  /* Doc headings belong to the document, so they keep the editor's own font. */
+  .bn-container :is(h1, h2, h3) {
+    font-family: inherit;
+    font-weight: inherit;
+    letter-spacing: inherit;
+  }
+}
+
+/* ── Topographic contours ─────────────────────────────────────
+   Vermilion glow at the center, cooling to bone at the edges.
+   Opt-in per section; never over the doc or canvas editors. */
+@utility topo-bg {
+  position: relative;
+  isolation: isolate;
+
+  &::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    pointer-events: none;
+    background: radial-gradient(ellipse 40% 50% at 50% 42%,
+        oklch(calc(var(--l-accent) + 0.06) var(--c-accent) calc(var(--h-accent) + 8)),
+        oklch(var(--l-accent) var(--c-accent) var(--h-accent) / 0.5) 45%,
+        oklch(0.95 0.02 85 / 0.4) 75%);
+    mask-image:
+      url("/textures/topo.svg"),
+      radial-gradient(ellipse 75% 70% at 50% 45%, black 30%, transparent 85%);
+    mask-size: cover, 100% 100%;
+    mask-position: center;
+    mask-repeat: no-repeat;
+    mask-composite: intersect;
+    opacity: 0.5;
+  }
+}
+
+/* ── Registration marks ───────────────────────────────────────
+   Crop marks just outside an element, like a printed map sheet.
+   Put it on a wrapper; overflow-hidden would clip them. */
+@utility survey-frame {
+  position: relative;
+
+  &::after {
+    --mark: oklch(var(--l-accent) var(--c-accent) var(--h-accent) / 0.75);
+    --size: 14px;
+    content: "";
+    position: absolute;
+    inset: -8px;
+    pointer-events: none;
+    background:
+      linear-gradient(var(--mark), var(--mark)) top left / var(--size) 1px,
+      linear-gradient(var(--mark), var(--mark)) top left / 1px var(--size),
+      linear-gradient(var(--mark), var(--mark)) top right / var(--size) 1px,
+      linear-gradient(var(--mark), var(--mark)) top right / 1px var(--size),
+      linear-gradient(var(--mark), var(--mark)) bottom left / var(--size) 1px,
+      linear-gradient(var(--mark), var(--mark)) bottom left / 1px var(--size),
+      linear-gradient(var(--mark), var(--mark)) bottom right / var(--size) 1px,
+      linear-gradient(var(--mark), var(--mark)) bottom right / 1px var(--size);
+    background-repeat: no-repeat;
+  }
+}
+
+/* ── Film grain ───────────────────────────────────────────────
+   Removes the flat-digital look. Add `grain` to <body> or a
+   top-level wrapper, once. */
+@utility grain {
+  position: relative;
+
+  &::after {
+    content: "";
+    position: fixed;
+    inset: 0;
+    z-index: 50;
+    pointer-events: none;
+    opacity: 0.04;
+    mix-blend-mode: overlay;
+    background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='160' height='160'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='.8' numOctaves='2' stitchTiles='stitch'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>");
+  }
+}
+
+/* ── Edge light ───────────────────────────────────────────────
+   Gradient hairline: light catches the top edge and fades down.
+   Use on cards and popovers instead of a flat border. */
+@utility edge-light {
+  border: 1px solid transparent;
+  background:
+    linear-gradient(var(--card), var(--card)) padding-box,
+    linear-gradient(to bottom,
+      oklch(var(--l-accent) var(--c-accent) var(--h-accent) / 0.4),
+      oklch(0.95 0.02 85 / 0.07) 45%) border-box;
+}
+
+/* ── Signal glow ──────────────────────────────────────────────
+   For the one primary CTA per view. */
+@utility glow {
+  box-shadow:
+    0 0 0 1px oklch(var(--l-accent) var(--c-accent) var(--h-accent) / 0.4),
+    0 10px 36px -10px oklch(var(--l-accent) var(--c-accent) var(--h-accent) / 0.5);
+}
+
+/* ── Scroll-linked tilt ───────────────────────────────────────
+   Leans back from the top, settles flat over the first 500px of
+   scroll. Pure CSS; unsupported browsers and reduced-motion users
+   see it flat. Use on one hero element per page. */
+@keyframes scroll-tilt {
+  from {
+    transform: perspective(1400px) translateY(-70px) rotateX(22deg) scale(0.96);
+  }
+
+  to {
+    transform: perspective(1400px) translateY(0) rotateX(0deg) scale(1);
+  }
+}
+
+@utility scroll-tilt {
+  @supports (animation-timeline: scroll()) {
+    @media (prefers-reduced-motion: no-preference) {
+      animation: scroll-tilt linear both;
+      animation-timeline: scroll(root);
+      animation-range: 0 500px;
+    }
+  }
+}
