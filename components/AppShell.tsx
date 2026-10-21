@@ -1,9 +1,9 @@
 "use client";
 import { usePathname } from "next/navigation";
-import React from "react";
+import React, { Suspense } from "react";
 import { SiteHeader } from "./SiteHeader";
 
-const AppShell = ({ children }: { children: React.ReactNode }) => {
+function AppShellInner({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
   const isFullScreenRoute =
     pathname?.startsWith("/workspace/") || pathname?.startsWith("/shared/");
@@ -14,6 +14,14 @@ const AppShell = ({ children }: { children: React.ReactNode }) => {
       <SiteHeader />
       <div className="flex flex-1 col-1 pt-18">{children}</div>
     </>
+  );
+}
+
+const AppShell = ({ children }: { children: React.ReactNode }) => {
+  return (
+    <Suspense fallback={<div className="flex flex-1 col-1 pt-18">{children}</div>}>
+      <AppShellInner>{children}</AppShellInner>
+    </Suspense>
   );
 };
 

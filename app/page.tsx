@@ -1,12 +1,13 @@
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
-import { ArrowRight, Check } from "lucide-react";
+import { ArrowRight } from "lucide-react";
 import { landingData } from "@/app/_data/landing";
 import { AudienceStrip } from "./_components/AudienceStrip";
 import { SurfaceRow } from "./_components/SurfaceRow";
 import { HowItWorksWaypoints } from "./_components/HowItWorksWaypoints";
 import { FinalCta } from "./_components/FinalCta";
 import { Footer } from "./_components/Footer";
+import { PricingPlans } from "@/components/PricingPlans";
 
 export default function Home() {
   const { hero, audiences, features, howItWorks, pricing, ctaBanner, footer } =
@@ -85,7 +86,6 @@ export default function Home() {
               {/* Video Player */}
               <div className="relative aspect-16/10 w-full bg-background/80">
                 <video
-                  src={hero.video.mp4}
                   poster={hero.video.poster}
                   autoPlay
                   loop
@@ -137,7 +137,7 @@ export default function Home() {
       {/* ── 5. PRICING SECTION ──────────────────────────────── */}
       <section id="pricing" className="py-24 px-6 md:py-32 border-t border-border/50">
         <div className="mx-auto max-w-6xl">
-          <div className="text-center max-w-3xl mx-auto mb-16 md:mb-20">
+          <div className="text-center max-w-3xl mx-auto mb-12 md:mb-16">
             <div className="mb-4 inline-flex items-center gap-2 rounded-full border border-border/80 bg-secondary/40 px-3 py-0.5 text-xs font-mono text-muted-foreground">
               <span className="text-primary text-[10px]">◆</span>
               <span>{pricing.eyebrow}</span>
@@ -149,68 +149,7 @@ export default function Home() {
               {pricing.subtitle}
             </p>
           </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            {pricing.tiers.map((tier) => (
-              <div
-                key={tier.id}
-                className={`relative rounded-xl p-8 flex flex-col justify-between ${
-                  tier.featured
-                    ? "edge-light glow bg-card"
-                    : "border border-border/60 bg-card/30"
-                }`}
-              >
-                {tier.badge && (
-                  <div className="absolute -top-3 right-6 rounded-full bg-primary px-3 py-0.5 font-mono text-[11px] font-medium text-primary-foreground">
-                    {tier.badge}
-                  </div>
-                )}
-                <div>
-                  <div
-                    className={`font-mono text-xs uppercase tracking-wider ${
-                      tier.featured
-                        ? "text-primary font-semibold"
-                        : "text-muted-foreground"
-                    }`}
-                  >
-                    {tier.name}
-                  </div>
-                  <div className="mt-4 flex items-baseline gap-2">
-                    <span className="text-4xl font-normal font-heading text-foreground">
-                      {tier.price}
-                    </span>
-                    <span className="text-xs font-mono text-muted-foreground">
-                      {tier.period}
-                    </span>
-                  </div>
-                  <p className="mt-3 text-xs sm:text-sm text-muted-foreground">
-                    {tier.description}
-                  </p>
-
-                  <ul className="mt-8 space-y-3 text-xs sm:text-sm text-foreground/80">
-                    {tier.features.map((feature, fIdx) => (
-                      <li key={fIdx} className="flex items-center gap-2.5">
-                        <Check className="size-4 text-primary shrink-0" />
-                        <span>{feature}</span>
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-
-                <Button
-                  asChild
-                  variant={tier.cta.variant}
-                  className={`mt-8 w-full ${
-                    tier.featured
-                      ? "font-medium"
-                      : "border-border/80 hover:bg-muted/60"
-                  }`}
-                >
-                  <Link href={tier.cta.href}>{tier.cta.label}</Link>
-                </Button>
-              </div>
-            ))}
-          </div>
+          <PricingPlans />
         </div>
       </section>
 
