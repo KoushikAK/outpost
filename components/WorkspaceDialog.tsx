@@ -19,7 +19,11 @@ import {
 import { createWorkspace, updateWorkspace } from "@/actions/workspace";
 import { useFetch } from "./hooks/use-fetch";
 
-type EditableWorkspace = { id: string; name: string; description: string | null };
+type EditableWorkspace = {
+  id: string;
+  name: string;
+  description: string | null;
+};
 
 // Creates a workspace, or edits one when `workspace` is passed. Opens from its own `trigger`,
 // or from outside via `open`/`onOpenChange` (e.g. a card's dropdown menu).
@@ -43,7 +47,9 @@ export function WorkspaceDialog({
       {trigger && <DialogTrigger asChild>{trigger}</DialogTrigger>}
       <DialogContent>
         <DialogHeader>
-          <DialogTitle>{workspace ? "Edit workspace" : "Create a workspace"}</DialogTitle>
+          <DialogTitle>
+            {workspace ? "Edit workspace" : "Create a workspace"}
+          </DialogTitle>
         </DialogHeader>
         {/* Mounted per open, so the fields always start from the current values. */}
         <WorkspaceForm workspace={workspace} onDone={() => setOpen(false)} />
@@ -52,12 +58,20 @@ export function WorkspaceDialog({
   );
 }
 
-function WorkspaceForm({ workspace, onDone }: { workspace?: EditableWorkspace; onDone: () => void }) {
+function WorkspaceForm({
+  workspace,
+  onDone,
+}: {
+  workspace?: EditableWorkspace;
+  onDone: () => void;
+}) {
   const [name, setName] = useState(workspace?.name ?? "");
   const [description, setDescription] = useState(workspace?.description ?? "");
   const router = useRouter();
-  const { fn: createWorkspaceFn, loading: creating } = useFetch(createWorkspace);
-  const { fn: updateWorkspaceFn, loading: updating } = useFetch(updateWorkspace);
+  const { fn: createWorkspaceFn, loading: creating } =
+    useFetch(createWorkspace);
+  const { fn: updateWorkspaceFn, loading: updating } =
+    useFetch(updateWorkspace);
   const loading = creating || updating;
   const openUpgrade = useUpgradeDialog();
 

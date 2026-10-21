@@ -17,6 +17,12 @@ const EXAMPLE_PROMPTS = [
   "Design a blog database and document each table",
   "Map out a user onboarding flow",
   "Plan the architecture for a chat app",
+  "Create an ER diagram for a hotel booking platform",
+  "Map out a customer support ticket lifecycle",
+  "Design a rate limiting system for public APIs",
+  "Design a feature flag management system",
+  "Create a sequence diagram for a payment transaction",
+  "Document the architecture of a serverless application",
 ];
 
 // "design a blog schema: users, posts..." -> "Design a blog schema: users, posts", cut on a word.
@@ -38,14 +44,16 @@ export function DashboardPrompt() {
   const { fn: createWorkspaceFn, loading } = useFetch(createWorkspace);
   const openUpgrade = useUpgradeDialog();
   const busy = loading ?? false;
-  
+
   const handleSubmit = async () => {
     const trimmed = prompt.trim();
     if (!trimmed || busy) return;
     const result = await createWorkspaceFn(nameFromPrompt(trimmed), trimmed);
     if (!result) return;
     if ("limit" in result) return openUpgrade(UPGRADE_REASONS[result.limit]);
-    router.push(`/workspace/${result.workspace.id}?prompt=${encodeURIComponent(trimmed)}`);
+    router.push(
+      `/workspace/${result.workspace.id}?prompt=${encodeURIComponent(trimmed)}`,
+    );
   };
 
   return (
@@ -59,7 +67,8 @@ export function DashboardPrompt() {
         What are we planning today?
       </h1>
       <p className="mx-auto mt-3 max-w-xl text-balance text-base text-muted-foreground sm:text-lg leading-relaxed">
-        Describe your system, flow, or schema — the agent charts the canvas and drafts the living doc in real time.
+        Describe your system, flow, or schema — the agent charts the canvas and
+        drafts the living doc in real time.
       </p>
 
       <div className="edge-light mx-auto mt-7 max-w-3xl rounded-3xl p-3.5 text-left shadow-2xl shadow-black/50 backdrop-blur-md transition-all focus-within:ring-4 focus-within:ring-primary/15">
@@ -74,9 +83,16 @@ export function DashboardPrompt() {
           className="field-sizing-content max-h-60 min-h-14 w-full resize-none bg-transparent px-2 pt-1 text-base leading-6 outline-none placeholder:text-muted-foreground/70"
         />
         <div className="mt-1 flex items-center justify-between gap-2 pl-2">
-          <span className="text-xs text-muted-foreground/70">Shift + Enter for a new line</span>
+          <span className="text-xs text-muted-foreground/70">
+            Shift + Enter for a new line
+          </span>
           <div className="flex items-center gap-1.5">
-            <MicButton value={prompt} onChange={setPrompt} disabled={busy} className="rounded-full" />
+            <MicButton
+              value={prompt}
+              onChange={setPrompt}
+              disabled={busy}
+              className="rounded-full"
+            />
             <Button
               size="icon"
               onClick={handleSubmit}
