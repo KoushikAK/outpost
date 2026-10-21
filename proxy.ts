@@ -4,7 +4,11 @@ import { NextResponse } from "next/server";
 // Allowlist the protected surfaces instead of denylisting public ones — matches the
 // pattern from the Forge reference repo, and avoids the sign-in/sign-up pages ever
 // getting caught in their own auth check mid-redirect.
-const isProtectedRoute = createRouteMatcher(["/dashboard(.*)", "/workspace(.*)"]);
+const isProtectedRoute = createRouteMatcher([
+  "/dashboard(.*)",
+  "/workspace(.*)",
+  "/workspaces(.*)",
+]);
 
 export default clerkMiddleware(async (auth, req) => {
   const { userId } = await auth();
