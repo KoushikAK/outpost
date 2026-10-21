@@ -36,8 +36,12 @@ export default async function DashboardPage() {
     .sort((a, b) => compareDesc(a.lastActivity, b.lastActivity))
     .slice(0, RECENT_COUNT);
 
-  const planningCount = workspaces.filter((w) => w.status === "PLANNING").length;
-  const inProgressCount = workspaces.filter((w) => w.status === "IN_PROGRESS").length;
+  const planningCount = workspaces.filter(
+    (w) => w.status === "PLANNING",
+  ).length;
+  const inProgressCount = workspaces.filter(
+    (w) => w.status === "IN_PROGRESS",
+  ).length;
   const doneCount = workspaces.filter((w) => w.status === "DONE").length;
 
   return (
@@ -60,7 +64,8 @@ export default async function DashboardPage() {
           <div className="hidden sm:flex items-center gap-1.5 text-[11px] text-muted-foreground">
             <Layers className="size-3 text-primary/70" />
             <span>
-              {workspaces.length} {workspaces.length === 1 ? "outpost" : "outposts"} active
+              {workspaces.length}{" "}
+              {workspaces.length === 1 ? "outpost" : "outposts"} active
             </span>
           </div>
         </div>
@@ -128,10 +133,18 @@ export default async function DashboardPage() {
           <div className="survey-frame">
             <div className="edge-light relative overflow-hidden rounded-2xl bg-card/60 p-10 sm:p-14 text-center backdrop-blur-md">
               {/* Corner Crosshairs */}
-              <div className="absolute top-3 left-3 font-mono text-[10px] text-primary/40 select-none">+</div>
-              <div className="absolute top-3 right-3 font-mono text-[10px] text-primary/40 select-none">+</div>
-              <div className="absolute bottom-3 left-3 font-mono text-[10px] text-primary/40 select-none">+</div>
-              <div className="absolute bottom-3 right-3 font-mono text-[10px] text-primary/40 select-none">+</div>
+              <div className="absolute top-3 left-3 font-mono text-[10px] text-primary/40 select-none">
+                +
+              </div>
+              <div className="absolute top-3 right-3 font-mono text-[10px] text-primary/40 select-none">
+                +
+              </div>
+              <div className="absolute bottom-3 left-3 font-mono text-[10px] text-primary/40 select-none">
+                +
+              </div>
+              <div className="absolute bottom-3 right-3 font-mono text-[10px] text-primary/40 select-none">
+                +
+              </div>
 
               {/* Center Beacon */}
               <div className="mx-auto mb-6 flex size-14 items-center justify-center rounded-2xl border border-primary/40 bg-secondary/50 shadow-lg shadow-primary/10">
@@ -142,7 +155,9 @@ export default async function DashboardPage() {
                 No outposts staked in this sector
               </h3>
               <p className="mx-auto mt-3 max-w-md text-sm text-muted-foreground leading-relaxed">
-                Describe a flow, system, or schema in the terminal above — or spawn an empty workspace to draft live specs and spatial diagrams.
+                Describe a flow, system, or schema in the terminal above — or
+                spawn an empty workspace to draft live specs and spatial
+                diagrams.
               </p>
 
               <div className="mt-8 flex flex-wrap items-center justify-center gap-3">

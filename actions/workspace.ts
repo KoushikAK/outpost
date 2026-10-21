@@ -8,7 +8,11 @@ import { canAccessWorkspace } from "@/lib/workspace-access";
 import { scopeWhere } from "@/lib/workspace-scope";
 import { prisma } from "@/lib/prisma";
 import { WorkspaceStatus } from "@/lib/generated/prisma/enums";
-import { getEntitlements, getWorkspaceOwnerId, workspaceOwnerSelect } from "@/lib/billing";
+import {
+  getEntitlements,
+  getWorkspaceOwnerId,
+  workspaceOwnerSelect,
+} from "@/lib/billing";
 import { FREE_WORKSPACE_LIMIT, type LimitError } from "@/lib/plan-limits";
 
 // Workspaces are listed on both the dashboard (recent) and the board page.
@@ -22,7 +26,7 @@ function revalidateWorkspaceLists() {
 // returned rather than thrown, since Next hides thrown messages from the client in production.
 export async function createWorkspace(
   name: string,
-  description?: string
+  description?: string,
 ): Promise<{ workspace: { id: string } } | { limit: LimitError }> {
   const user = await checkUser();
   if (!user) throw new Error("Not signed in");
@@ -35,7 +39,10 @@ export async function createWorkspace(
   const scope = scopeWhere(orgId, user.id);
 
   const { unlimitedWorkspaces } = await getEntitlements(orgId ?? user.clerkId);
-  if (!unlimitedWorkspaces && (await prisma.workspace.count({ where: scope })) >= FREE_WORKSPACE_LIMIT) {
+  if (
+    !unlimitedWorkspaces &&
+    (await prisma.workspace.count({ where: scope })) >= FREE_WORKSPACE_LIMIT
+  ) {
     return { limit: "workspaces" };
   }
 
@@ -63,8 +70,13 @@ export async function createWorkspace(
 }
 
 // Leaving description undefined keeps it as-is (the header's inline rename only sends a name).
-export async function updateWorkspace(workspaceId: string, name: string, description?: string) {
-  if (!(await canAccessWorkspace(workspaceId))) throw new Error("Workspace not found");
+export async function updateWorkspace(
+  workspaceId: string,
+  name: string,
+  description?: string,
+) {
+  if (!(await canAccessWorkspace(workspaceId)))
+    throw new Error("Workspace not found");
 
   const trimmedName = name.trim();
   if (!trimmedName) throw new Error("Workspace name is required");
@@ -73,7 +85,9 @@ export async function updateWorkspace(workspaceId: string, name: string, descrip
     where: { id: workspaceId },
     data: {
       name: trimmedName,
-      ...(description !== undefined && { description: description.trim() || null }),
+      ...(description !== undefined && {
+        description: description.trim() || null,
+      }),
     },
   });
 
@@ -85,7 +99,8 @@ export async function updateWorkspace(workspaceId: string, name: string, descrip
 // Any org member can open and edit a workspace, but only its creator or an org admin can delete it.
 export async function deleteWorkspace(workspaceId: string) {
   const { userId, orgId, orgRole } = await auth();
-  if (!userId || !(await canAccessWorkspace(workspaceId))) throw new Error("Workspace not found");
+  if (!userId || !(await canAccessWorkspace(workspaceId)))
+    throw new Error("Workspace not found");
 
   const workspace = await prisma.workspace.findUniqueOrThrow({
     where: { id: workspaceId },
@@ -95,7 +110,9 @@ export async function deleteWorkspace(workspaceId: string) {
   // orgRole describes the active org only, so it counts only for a workspace in that org.
   const isOrgAdmin = orgRole === "org:admin" && workspace.clerkOrgId === orgId;
   if (!isCreator && !isOrgAdmin) {
-    throw new Error("Only the creator or an org admin can delete this workspace");
+    throw new Error(
+      "Only the creator or an org admin can delete this workspace",
+    );
   }
 
   // Doc and canvas cascade-delete with the workspace; its agent prompts stay, so usage can't reset.
@@ -104,11 +121,19 @@ export async function deleteWorkspace(workspaceId: string) {
 }
 
 // Called after a board drag — the client has already moved the card, so no revalidatePath.
-export async function moveWorkspace(workspaceId: string, status: WorkspaceStatus, position: number) {
-  if (!Object.values(WorkspaceStatus).includes(status) || !Number.isFinite(position)) {
+export async function moveWorkspace(
+  workspaceId: string,
+  status: WorkspaceStatus,
+  position: number,
+) {
+  if (
+    !Object.values(WorkspaceStatus).includes(status) ||
+    !Number.isFinite(position)
+  ) {
     throw new Error("Invalid move");
   }
-  if (!(await canAccessWorkspace(workspaceId))) throw new Error("Workspace not found");
+  if (!(await canAccessWorkspace(workspaceId)))
+    throw new Error("Workspace not found");
 
   await prisma.workspace.update({
     where: { id: workspaceId },
@@ -120,17 +145,24 @@ export async function moveWorkspace(workspaceId: string, status: WorkspaceStatus
 // Resetting is the same as turning it on again: the previous link stops working.
 export async function setWorkspaceSharing(
   workspaceId: string,
-  enabled: boolean
+  enabled: boolean,
 ): Promise<{ shareToken: string | null } | { limit: LimitError }> {
-  if (!(await canAccessWorkspace(workspaceId))) throw new Error("Workspace not found");
+  if (!(await canAccessWorkspace(workspaceId)))
+    throw new Error("Workspace not found");
 
-  if (enabled && !(await getEntitlements(await getWorkspaceOwnerId(workspaceId))).publicSharing) {
+  if (
+    enabled &&
+    !(await getEntitlements(await getWorkspaceOwnerId(workspaceId)))
+      .publicSharing
+  ) {
     return { limit: "sharing" };
   }
 
   const { shareToken } = await prisma.workspace.update({
     where: { id: workspaceId },
-    data: { shareToken: enabled ? randomBytes(24).toString("base64url") : null },
+    data: {
+      shareToken: enabled ? randomBytes(24).toString("base64url") : null,
+    },
     select: { shareToken: true },
   });
 
