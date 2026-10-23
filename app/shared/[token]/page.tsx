@@ -22,6 +22,9 @@ import { DocViewer } from "@/components/DocEditorLoader";
 // Shared links are private-by-obscurity, so keep them out of search engines.
 export const metadata: Metadata = { robots: { index: false, follow: false } };
 
+// Fix: render this token-specific route at request time.
+export const instant = false;
+
 // Public, no sign-in: anyone with the token sees a read-only copy of the doc and canvas.
 export default async function SharedPage({
   params,
