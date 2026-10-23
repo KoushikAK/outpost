@@ -1,7 +1,14 @@
 import React from "react";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
-import { ArrowRight, Bot, Check, ShieldCheck, Sparkles, Zap } from "lucide-react";
+import {
+  ArrowRight,
+  Bot,
+  Check,
+  ShieldCheck,
+  Sparkles,
+  Zap,
+} from "lucide-react";
 
 interface FinalCtaProps {
   data: {
@@ -22,10 +29,22 @@ interface FinalCtaProps {
 
 export function FinalCta({ data }: FinalCtaProps) {
   const defaultBadges = [
-    { label: "No credit card required", icon: <Check className="size-3 text-primary" /> },
-    { label: "50 Free agent credits/mo", icon: <Zap className="size-3 text-primary" /> },
-    { label: "Yjs real-time multiplayer", icon: <Bot className="size-3 text-primary" /> },
-    { label: "Clerk-secured workspace", icon: <ShieldCheck className="size-3 text-primary" /> },
+    {
+      label: "No credit card required",
+      icon: <Check className="size-3 text-primary" />,
+    },
+    {
+      label: "50 Free agent credits/mo",
+      icon: <Zap className="size-3 text-primary" />,
+    },
+    {
+      label: "Yjs real-time multiplayer",
+      icon: <Bot className="size-3 text-primary" />,
+    },
+    {
+      label: "Clerk-secured workspace",
+      icon: <ShieldCheck className="size-3 text-primary" />,
+    },
   ];
 
   return (
@@ -94,8 +113,9 @@ export function FinalCta({ data }: FinalCtaProps) {
 
               {/* Subtitle */}
               <p className="mt-5 text-base sm:text-lg md:text-xl text-muted-foreground font-normal leading-relaxed max-w-2xl mx-auto">
-                {data.subtitle} Join founders, product teams, and engineers who draw architectures and
-                draft living specs side-by-side with an autonomous AI partner.
+                {data.subtitle} Join founders, product teams, and engineers who
+                draw architectures and draft living specs side-by-side with an
+                autonomous AI partner.
               </p>
 
               {/* Interactive Action Buttons */}
@@ -105,7 +125,10 @@ export function FinalCta({ data }: FinalCtaProps) {
                   size="lg"
                   className="glow px-8 h-12 text-base font-medium cursor-pointer shadow-xl transition-transform hover:scale-[1.02]"
                 >
-                  <Link href={data.primaryCta.href} className="inline-flex items-center gap-2">
+                  <Link
+                    href={data.primaryCta.href}
+                    className="inline-flex items-center gap-2"
+                  >
                     <Sparkles className="size-4" />
                     <span>{data.primaryCta.label}</span>
                     <ArrowRight className="size-4" />

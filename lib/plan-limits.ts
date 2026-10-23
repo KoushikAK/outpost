@@ -10,7 +10,8 @@ export const PROMPT_LIMIT_ERROR = "prompt_limit_reached";
 export const UPGRADE_REASONS = {
   prompts: {
     title: "You're out of agent prompts",
-    description: "This workspace's plan has used all its prompts for this month. Upgrade for more.",
+    description:
+      "This workspace's plan has used all its prompts for this month. Upgrade for more.",
   },
   workspaces: {
     title: `You've reached ${FREE_WORKSPACE_LIMIT} workspaces`,
@@ -18,7 +19,8 @@ export const UPGRADE_REASONS = {
   },
   sharing: {
     title: "Public links are a paid feature",
-    description: "Upgrade to share a read-only link to this workspace with anyone.",
+    description:
+      "Upgrade to share a read-only link to this workspace with anyone.",
   },
   pdfExport: {
     title: "PDF export is a paid feature",

@@ -72,6 +72,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
     >
       <html
         lang="en"
+        suppressHydrationWarning
         className={`dark ${geistSans.variable} ${geistMono.variable} ${display.variable} ${bricolage.variable} h-full antialiased`}
       >
         <body className="grain flex min-h-full flex-col">

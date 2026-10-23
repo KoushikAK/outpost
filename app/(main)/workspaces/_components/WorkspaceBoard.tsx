@@ -783,7 +783,7 @@ export function WorkspaceBoard({
                                             className="cursor-pointer"
                                           >
                                             <Pencil className="size-4" />
-                                            Edit 
+                                            Edit
                                           </DropdownMenuItem>
                                           <DropdownMenuItem
                                             variant="destructive"

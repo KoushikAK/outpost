@@ -11,8 +11,6 @@ import { getActivePromptUsage } from "@/actions/usage";
 
 type Usage = Awaited<ReturnType<typeof getActivePromptUsage>>;
 
-// 1:16:21 video
-
 const USAGE_CHANGED_EVENT = "outpost:prompt-usage-changed";
 
 // Called after an agent response, so the header count stays current without a reload.

@@ -4,7 +4,11 @@ import { useState } from "react";
 import Link from "next/link";
 import { Check } from "lucide-react";
 import { useAuth, useOrganization } from "@clerk/nextjs";
-import { CheckoutButton, usePlans, useSubscription } from "@clerk/nextjs/experimental";
+import {
+  CheckoutButton,
+  usePlans,
+  useSubscription,
+} from "@clerk/nextjs/experimental";
 import { Button } from "@/components/ui/button";
 
 type PayerType = "user" | "organization";
@@ -17,12 +21,19 @@ const TABS: { value: PayerType; label: string }[] = [
 
 // Seat-based plans price per member; everything else is a flat monthly fee.
 function planPrice(plan: Plan) {
-  const seatFee = plan.unitPrices?.find((u) => u.name === "seats")?.tiers[0]?.feePerBlock;
+  const seatFee = plan.unitPrices?.find((u) => u.name === "seats")?.tiers[0]
+    ?.feePerBlock;
   if (seatFee && seatFee.amount > 0) {
-    return { amount: `${seatFee.currencySymbol}${seatFee.amountFormatted}`, unit: "per member / month" };
+    return {
+      amount: `${seatFee.currencySymbol}${seatFee.amountFormatted}`,
+      unit: "per member / month",
+    };
   }
   if (plan.fee && plan.fee.amount > 0) {
-    return { amount: `${plan.fee.currencySymbol}${plan.fee.amountFormatted}`, unit: "per month" };
+    return {
+      amount: `${plan.fee.currencySymbol}${plan.fee.amountFormatted}`,
+      unit: "per month",
+    };
   }
   return { amount: "$0", unit: "forever" };
 }
@@ -30,7 +41,11 @@ function planPrice(plan: Plan) {
 // Free first, then paid plans from cheapest to most expensive.
 function sortPlans(plans: Plan[]) {
   const cost = (plan: Plan) =>
-    plan.isDefault ? -1 : (plan.unitPrices?.[0]?.tiers[0]?.feePerBlock.amount ?? plan.fee?.amount ?? 0);
+    plan.isDefault
+      ? -1
+      : (plan.unitPrices?.[0]?.tiers[0]?.feePerBlock.amount ??
+        plan.fee?.amount ??
+        0);
   return [...plans].sort((a, b) => cost(a) - cost(b));
 }
 
@@ -57,7 +72,9 @@ export function PricingPlans({
     enabled: !!isSignedIn && (payerType === "user" || !!orgId),
   });
   const activePlanIds = new Set(
-    subscription?.subscriptionItems.filter((item) => item.status === "active").map((item) => item.plan.id)
+    subscription?.subscriptionItems
+      .filter((item) => item.status === "active")
+      .map((item) => item.plan.id),
   );
   const sortedPlans = sortPlans(plans ?? []);
   // Only the entry-level paid plan (Pro, or Team) is highlighted, not every paid tier.
@@ -67,8 +84,14 @@ export function PricingPlans({
     <div className="mx-auto w-full max-w-6xl">
       {title && (
         <div className="mb-12 text-center">
-          <h2 className="font-heading text-3xl sm:text-5xl font-normal tracking-tight text-foreground">{title}</h2>
-          {description && <p className="mx-auto mt-4 max-w-lg text-muted-foreground text-base sm:text-lg">{description}</p>}
+          <h2 className="font-heading text-3xl sm:text-5xl font-normal tracking-tight text-foreground">
+            {title}
+          </h2>
+          {description && (
+            <p className="mx-auto mt-4 max-w-lg text-muted-foreground text-base sm:text-lg">
+              {description}
+            </p>
+          )}
         </div>
       )}
 
@@ -101,12 +124,14 @@ export function PricingPlans({
         }`}
       >
         {isLoading
-          ? [0, 1, 2].slice(0, payerType === "user" ? 2 : 3).map((i) => (
-              <div
-                key={i}
-                className="h-115 animate-pulse rounded-xl border border-border/60 bg-card/20"
-              />
-            ))
+          ? [0, 1, 2]
+              .slice(0, payerType === "user" ? 2 : 3)
+              .map((i) => (
+                <div
+                  key={i}
+                  className="h-115 animate-pulse rounded-xl border border-border/60 bg-card/20"
+                />
+              ))
           : sortedPlans.map((plan) => {
               const price = planPrice(plan);
               const isCurrent =
@@ -166,11 +191,16 @@ export function PricingPlans({
                       {plan.features.length === 0 ? (
                         <li className="flex items-center gap-2.5 text-muted-foreground">
                           <Check className="size-4 shrink-0 text-primary" />
-                          <span>The core workspace: docs, canvas and the agent</span>
+                          <span>
+                            The core workspace: docs, canvas and the agent
+                          </span>
                         </li>
                       ) : (
                         plan.features.map((feature) => (
-                          <li key={feature.id} className="flex items-center gap-2.5">
+                          <li
+                            key={feature.id}
+                            className="flex items-center gap-2.5"
+                          >
                             <Check className="size-4 shrink-0 text-primary" />
                             <span>{feature.name}</span>
                           </li>
@@ -218,12 +248,12 @@ function PlanAction({
         size="lg"
         variant={isFeatured ? "default" : "outline"}
         className={`mt-8 w-full cursor-pointer ${
-          isFeatured
-            ? "glow font-medium"
-            : "border-border/80 hover:bg-muted/60"
+          isFeatured ? "glow font-medium" : "border-border/80 hover:bg-muted/60"
         }`}
       >
-        <Link href="/sign-up">{isPaid ? `Get ${plan.name}` : "Start free"}</Link>
+        <Link href="/sign-up">
+          {isPaid ? `Get ${plan.name}` : "Start free"}
+        </Link>
       </Button>
     );
   }
@@ -253,7 +283,9 @@ function PlanAction({
     if (!has?.({ permission: "org:sys_billing:manage" })) {
       return (
         <div className="mt-8">
-          <Note>Ask an admin of {organization?.name ?? "your team"} to upgrade.</Note>
+          <Note>
+            Ask an admin of {organization?.name ?? "your team"} to upgrade.
+          </Note>
         </div>
       );
     }

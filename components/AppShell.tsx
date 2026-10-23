@@ -19,7 +19,9 @@ function AppShellInner({ children }: { children: React.ReactNode }) {
 
 const AppShell = ({ children }: { children: React.ReactNode }) => {
   return (
-    <Suspense fallback={<div className="flex flex-1 col-1 pt-18">{children}</div>}>
+    <Suspense
+      fallback={<div className="flex flex-1 col-1 pt-18">{children}</div>}
+    >
       <AppShellInner>{children}</AppShellInner>
     </Suspense>
   );

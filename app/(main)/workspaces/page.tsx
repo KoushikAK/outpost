@@ -89,8 +89,9 @@ export default async function WorkspacesPage() {
               All workspaces
             </h1>
             <p className="mt-2 max-w-2xl text-sm text-muted-foreground leading-relaxed">
-              Central operational deck for all architectural diagrams, real-time specifications,
-              and collaborative AI canvas workspaces across your organization.
+              Central operational deck for all architectural diagrams, real-time
+              specifications, and collaborative AI canvas workspaces across your
+              organization.
             </p>
           </div>
 
@@ -113,10 +114,18 @@ export default async function WorkspacesPage() {
         {totalCount === 0 ? (
           <div className="survey-frame">
             <div className="edge-light relative overflow-hidden rounded-2xl bg-card/60 p-10 sm:p-14 text-center backdrop-blur-md">
-              <div className="absolute top-3 left-3 font-mono text-[10px] text-primary/40 select-none">+</div>
-              <div className="absolute top-3 right-3 font-mono text-[10px] text-primary/40 select-none">+</div>
-              <div className="absolute bottom-3 left-3 font-mono text-[10px] text-primary/40 select-none">+</div>
-              <div className="absolute bottom-3 right-3 font-mono text-[10px] text-primary/40 select-none">+</div>
+              <div className="absolute top-3 left-3 font-mono text-[10px] text-primary/40 select-none">
+                +
+              </div>
+              <div className="absolute top-3 right-3 font-mono text-[10px] text-primary/40 select-none">
+                +
+              </div>
+              <div className="absolute bottom-3 left-3 font-mono text-[10px] text-primary/40 select-none">
+                +
+              </div>
+              <div className="absolute bottom-3 right-3 font-mono text-[10px] text-primary/40 select-none">
+                +
+              </div>
 
               <div className="mx-auto mb-6 flex size-14 items-center justify-center rounded-2xl border border-primary/40 bg-secondary/50 shadow-lg shadow-primary/10">
                 <Compass className="size-7 text-primary animate-pulse" />
@@ -126,8 +135,8 @@ export default async function WorkspacesPage() {
                 No outposts established in this sector
               </h3>
               <p className="mx-auto mt-3 max-w-md text-sm text-muted-foreground leading-relaxed">
-                Launch a workspace to collaborate with the AI agent across live documentation
-                and real-time spatial diagrams.
+                Launch a workspace to collaborate with the AI agent across live
+                documentation and real-time spatial diagrams.
               </p>
 
               <div className="mt-8 flex flex-wrap items-center justify-center gap-3">

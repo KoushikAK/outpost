@@ -10,7 +10,9 @@ type Recognition = {
   continuous: boolean;
   interimResults: boolean;
   lang: string;
-  onresult: (event: { results: ArrayLike<ArrayLike<{ transcript: string }>> }) => void;
+  onresult: (event: {
+    results: ArrayLike<ArrayLike<{ transcript: string }>>;
+  }) => void;
   onend: () => void;
   start: () => void;
   stop: () => void;
@@ -19,7 +21,10 @@ type Recognition = {
 type RecognitionConstructor = new () => Recognition;
 
 function getRecognition() {
-  const w = window as unknown as Record<string, RecognitionConstructor | undefined>;
+  const w = window as unknown as Record<
+    string,
+    RecognitionConstructor | undefined
+  >;
   return w.SpeechRecognition ?? w.webkitSpeechRecognition;
 }
 
@@ -40,7 +45,11 @@ export function MicButton({
   disabled?: boolean;
   className?: string;
 }) {
-  const supported = useSyncExternalStore(noopSubscribe, isSupported, isSupportedOnServer);
+  const supported = useSyncExternalStore(
+    noopSubscribe,
+    isSupported,
+    isSupportedOnServer,
+  );
   const [listening, setListening] = useState(false);
   const recognitionRef = useRef<Recognition | null>(null);
 
@@ -63,7 +72,10 @@ export function MicButton({
 
     const base = value.trim() ? `${value.trim()} ` : "";
     recognition.onresult = (event) => {
-      const spoken = Array.from(event.results, (result) => result[0].transcript).join("");
+      const spoken = Array.from(
+        event.results,
+        (result) => result[0].transcript,
+      ).join("");
       onChange(base + spoken);
     };
     recognition.onend = () => setListening(false);

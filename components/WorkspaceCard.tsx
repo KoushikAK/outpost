@@ -44,12 +44,17 @@ export function WorkspaceCard({
         {workspace.name}
       </Link>
       {workspace.description && (
-        <p className="line-clamp-2 text-xs leading-relaxed text-muted-foreground">{workspace.description}</p>
+        <p className="line-clamp-2 text-xs leading-relaxed text-muted-foreground">
+          {workspace.description}
+        </p>
       )}
 
       <div className="mt-auto flex items-center justify-between gap-2 text-[11px] text-muted-foreground">
         {/* Relative time can differ by a minute between the server and browser render. */}
-        <span className="flex min-w-0 items-center gap-1.5" suppressHydrationWarning>
+        <span
+          className="flex min-w-0 items-center gap-1.5"
+          suppressHydrationWarning
+        >
           <LayoutGrid className="size-3.5 shrink-0 text-primary" />
           <span className="truncate" suppressHydrationWarning>
             {showStatus && `${statusTitle(workspace.status)} · `}
@@ -67,7 +72,14 @@ export function WorkspaceCard({
 function CreatorAvatar({ creator }: { creator: WorkspaceCardData["creator"] }) {
   const name = creator.name ?? "Unknown";
   return creator.imageUrl ? (
-    <Image src={creator.imageUrl} alt={name} title={name} width={20} height={20} className="size-5 shrink-0 rounded-full" />
+    <Image
+      src={creator.imageUrl}
+      alt={name}
+      title={name}
+      width={20}
+      height={20}
+      className="size-5 shrink-0 rounded-full"
+    />
   ) : (
     <span
       title={name}
